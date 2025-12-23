@@ -1,7 +1,8 @@
-// components/VirementPage.jsx - VERSION CORRIGÉE
+// components/VirementPage.jsx - VERSION AVEC USERSERVICE
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import userService from '../services/UserService'; // ⚡ IMPORT DU SERVICE
 import emailjs from '@emailjs/browser';
 import { 
   ArrowLeft, Send, User, CreditCard, Euro, MessageSquare,
@@ -9,7 +10,7 @@ import {
 } from 'lucide-react';
 
 export default function VirementPage({ navigate, onVirementSuccess }) {
-  const { user, updateUser } = useAuth(); // ⚡ Ajout de updateUser
+  const { user, updateUser } = useAuth();
   const [activeTab, setActiveTab] = useState('virement');
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,6 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
     motif: '',
   });
 
-  // ✅ GUARD : Vérifier que l'utilisateur est connecté
   useEffect(() => {
     console.log('🔒 Vérification utilisateur:', user);
     if (!user) {
@@ -142,7 +142,31 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
     setLoading(true);
 
     try {
-      // Générer les données
+      // ⚡⚡⚡ UTILISATION DU USERSERVICE ⚡⚡⚡
+      console.log('💾 Appel UserService.createTransfer()...');
+      
+      const transferResult = await userService.createTransfer(user.id, {
+        amount: montant,
+        iban: formData.iban,
+        bic: formData.bic,
+        beneficiary: formData.beneficiaire,
+        email: formData.email,
+        motif: formData.motif
+      });
+
+      console.log('✅ Virement enregistré dans UserService:', transferResult);
+
+      // ⚡ Récupérer l'utilisateur mis à jour depuis le UserService
+      const updatedUser = await userService.getUserById(user.id);
+      console.log('👤 Utilisateur mis à jour récupéré:', updatedUser);
+
+      // ⚡ Mettre à jour le contexte
+      if (updateUser) {
+        updateUser(updatedUser);
+        console.log('✅ Contexte mis à jour');
+      }
+
+      // Générer les données pour le reçu
       const reference = `VIR${Date.now()}${Math.floor(Math.random() * 1000)}`;
       const transactionDate = new Date().toLocaleDateString('fr-FR', {
         day: '2-digit',
@@ -152,47 +176,7 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
         minute: '2-digit'
       });
 
-      console.log('📄 Référence générée:', reference);
-
-      // ⚡ ÉTAPE CRITIQUE : Mettre à jour le solde AVANT tout
-      const newBalance = user.balance - montant;
-      console.log('💰 Nouveau solde calculé:', newBalance);
-
-      // Créer la nouvelle transaction
-      const newTransaction = {
-        id: Date.now(),
-        type: 'Virement sortant',
-        date: new Date().toLocaleDateString('fr-FR', { 
-          day: '2-digit', 
-          month: 'short', 
-          year: 'numeric' 
-        }),
-        reference: formData.iban.substring(0, 4) + ' *** ' + formData.iban.slice(-3),
-        amount: montant,
-        isCredit: false
-      };
-
-      // Mettre à jour l'utilisateur avec le nouveau solde ET la transaction
-      const updatedUser = {
-        ...user,
-        balance: newBalance,
-        transactions: [newTransaction, ...(user.transactions || [])]
-      };
-
-      console.log('📝 Utilisateur mis à jour:', updatedUser);
-
-      // ⚡ SAUVEGARDER dans le contexte (via AuthContext)
-      if (updateUser) {
-        updateUser(updatedUser);
-        console.log('✅ Contexte mis à jour');
-      }
-
-      // ⚡ SAUVEGARDER dans localStorage
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      console.log('✅ localStorage mis à jour');
-
-      // Préparer les données du virement pour le reçu
-      const newVirementData = {
+      const virementData = {
         reference: reference,
         senderName: user?.name || user?.username || 'Client',
         beneficiary: formData.beneficiaire,
@@ -204,14 +188,14 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
         date: transactionDate
       };
 
-      console.log('💾 Données du virement pour le reçu:', newVirementData);
+      console.log('💾 Données du virement pour le reçu:', virementData);
 
       // Envoi EmailJS (optionnel, non bloquant)
       try {
         const templateParams = {
           beneficiaire_nom: formData.beneficiaire,
           beneficiaire_email: formData.email,
-          emetteur_nom: newVirementData.senderName,
+          emetteur_nom: virementData.senderName,
           montant: `${montant.toLocaleString('fr-FR', {minimumFractionDigits: 2})} €`,
           reference: reference,
           date: new Date().toLocaleDateString('fr-FR'),
@@ -252,7 +236,7 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
       console.log('🔄 Exécution du callback...');
       if (onVirementSuccess && typeof onVirementSuccess === 'function') {
         try {
-          onVirementSuccess(newVirementData);
+          onVirementSuccess(virementData);
           console.log('✅ Callback exécuté avec succès');
         } catch (callbackError) {
           console.error('❌ Erreur dans le callback:', callbackError);
@@ -265,7 +249,7 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
       console.log('🚀 Navigation vers la page reçu...');
       console.log('=== ÉTAT FINAL ===');
       console.log('User dans contexte:', updatedUser);
-      console.log('User dans localStorage:', localStorage.getItem('user'));
+      console.log('Nouveau solde:', updatedUser.balance);
       
       navigate('recu');
       
