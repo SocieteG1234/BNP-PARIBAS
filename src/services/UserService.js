@@ -1,12 +1,13 @@
-// services/UserService.js - PARTIE 1/2
-// ⚠️ COPIEZ CETTE PARTIE 1 PUIS LA PARTIE 2 POUR AVOIR LE FICHIER COMPLET
+// services/UserService.js - AVEC SYSTÈME DE VERSION
+// ⚡ Changez DATA_VERSION chaque fois que vous modifiez getDefaultUsers()
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
+const DATA_VERSION = 6; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
   constructor() {
-    if (DEV_MODE) console.log('🔧 UserService initialisé');
+    if (DEV_MODE) console.log('🔧 UserService initialisé - Version', DATA_VERSION);
     this.loadFromStorage();
     this.managers = [
       'Charles Fortunato',
@@ -23,30 +24,40 @@ class UserService {
   loadFromStorage() {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
+      const storedVersion = localStorage.getItem(STORAGE_KEY + '_version');
+      
+      // ⚡ Vérifier la version - Si différente, réinitialiser automatiquement
+      if (stored && storedVersion === String(DATA_VERSION)) {
         this.users = JSON.parse(stored);
-        if (DEV_MODE) console.log('📦 Chargé:', this.users.length, 'utilisateurs');
+        if (DEV_MODE) console.log('📦 Chargé depuis localStorage:', this.users.length, 'utilisateurs');
       } else {
+        if (storedVersion && storedVersion !== String(DATA_VERSION)) {
+          if (DEV_MODE) console.log('🔄 Nouvelle version détectée (' + storedVersion + ' → ' + DATA_VERSION + '), réinitialisation...');
+        } else {
+          if (DEV_MODE) console.log('🆕 Première initialisation');
+        }
         this.users = this.getDefaultUsers();
         this.saveToStorage();
-        if (DEV_MODE) console.log('🆕 Données initialisées');
       }
     } catch (error) {
-      if (DEV_MODE) console.error('❌ Erreur:', error);
+      if (DEV_MODE) console.error('❌ Erreur chargement:', error);
       this.users = this.getDefaultUsers();
+      this.saveToStorage();
     }
   }
 
   saveToStorage() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.users));
-      if (DEV_MODE) console.log('💾 Sauvegardé');
+      localStorage.setItem(STORAGE_KEY + '_version', String(DATA_VERSION));
+      if (DEV_MODE) console.log('💾 Sauvegardé (version ' + DATA_VERSION + ')');
     } catch (error) {
-      if (DEV_MODE) console.error('❌ Erreur:', error);
+      if (DEV_MODE) console.error('❌ Erreur sauvegarde:', error);
     }
   }
 
   resetToDefault() {
+    if (DEV_MODE) console.log('🔄 Réinitialisation manuelle des données');
     this.users = this.getDefaultUsers();
     this.saveToStorage();
   }
@@ -98,8 +109,16 @@ class UserService {
           { id: 3, type: 'Plan Épargne', number: 'N°*******8891', balance: 50000.17, icon: 'trending' }
         ],
         transactions: [
-          { id: 1, type: 'Virement entrant', date: '14 Déc 2024', reference: 'IE28 *** 513', amount: 40000.00, isCredit: true },
-          { id: 2, type: 'Achat carte', date: '14 Déc 2024', reference: 'CARREFOUR BREST', amount: 85.50, isCredit: false }
+          { id: 1, type: 'Virement entrant', date: '02 Déc 2025', reference: 'IE28 *** 513', amount: 40000.00, isCredit: true },
+          { id: 2, type: 'Achat carte', date: '04 Déc 2025', reference: 'CARREFOUR BREST', amount: 85.50, isCredit: false },
+          { id: 3, type: 'Virement sortant', date: '25 Nov 2025', reference: 'FR76 *** 657', amount: 1200.00, isCredit: false },
+          { id: 4, type: 'Virement entrant', date: '12 Nov 2025', reference: 'US45 *** 234', amount: 3000.00, isCredit: true },
+          { id: 5, type: 'Achat carte', date: '11 Déc 2024', reference: 'UBER BREST', amount: 45.20, isCredit: false },
+          { id: 6, type: 'Retrait ATM', date: '10 Déc 2024', reference: 'ATM BNP BREST', amount: 100.00, isCredit: false },
+          { id: 7, type: 'Virement entrant', date: '08 Déc 2024', reference: 'FR45 *** 891', amount: 500.00, isCredit: true },
+          { id: 8, type: 'Achat carte', date: '07 Déc 2024', reference: 'FNAC BREST', amount: 156.80, isCredit: false },
+          { id: 9, type: 'Retrait ATM', date: '05 Déc 2024', reference: 'ATM BNP GARE', amount: 200.00, isCredit: false },
+          { id: 10, type: 'Achat carte', date: '03 Déc 2024', reference: 'AMAZON FRANCE', amount: 67.99, isCredit: false }
         ],
         expenses: {
           month: 'Décembre 2024',
@@ -115,8 +134,7 @@ class UserService {
         virementRapide: 10,
         virementProgramme: 3
       },
-
-       { 
+      { 
         id: 2, 
         username: '07885513461', 
         password: '260824', 
@@ -125,13 +143,13 @@ class UserService {
         phone: '+33 06 44 67 54 97',
         accountNumber: '20250000003',
         country: 'France',
-        city: 'Brest',
-        location: 'Brest, France',
+        city: 'Lille',
+        location: 'Lille, France',
         manager: 'Luc Vollet',
         balance: 341890.00,
         isBlocked: false,
         unlockFee: 25000.00,
-        blockReason: 'Frais de maintenance annuels',
+        blockReason: null,
         rib: {
           iban: 'FR76 3000 5000 0102 0123 4567 880',
           bankCode: '30004',
@@ -152,113 +170,25 @@ class UserService {
             weeklyPaymentLimit: 2000,
             internationalPaymentEnabled: true,
             issueDate: '12/2022',
-            cardHolder: 'Ducharme Belinda'
+            cardHolder: 'DUCHARME BELINDA'
           }
         ],
         accounts: [
-          {
-            id: 1,
-            type: 'Compte Courant',
-            number: 'N°*******2284',
-            balance: 341890.00,
-            icon: 'wallet'
-          },
-          {
-            id: 2,
-            type: 'Livret A',
-            number: 'N°*******5462',
-            balance: 3000.40,
-            icon: 'piggybank'
-          },
-          {
-            id: 3,
-            type: 'Plan Épargne',
-            number: 'N°*******8891',
-            balance: 50000.17,
-            icon: 'trending'
-          }
+          { id: 1, type: 'Compte Courant', number: 'N°*******2284', balance: 341890.00, icon: 'wallet' },
+          { id: 2, type: 'Livret A', number: 'N°*******5462', balance: 3000.40, icon: 'piggybank' },
+          { id: 3, type: 'Plan Épargne', number: 'N°*******8891', balance: 50000.17, icon: 'trending' }
         ],
         transactions: [
-          {
-            id: 1,
-            type: 'Virement entrant',
-            date: '02 Déc 2025',
-            reference: 'IE28 *** 513',
-            amount: 40000.00,
-            isCredit: true
-          },
-          {
-            id: 2,
-            type: 'Achat carte',
-            date: '04 Déc 2025',
-            reference: 'CARREFOUR BREST',
-            amount: 85.50,
-            isCredit: false
-          },
-          {
-            id: 3,
-            type: 'Virement sortant',
-            date: '25 Nov 2025',
-            reference: 'FR76 *** 657',
-            amount: 1200.00,
-            isCredit: false
-          },
-          {
-            id: 4,
-            type: 'Virement entrant',
-            date: '12 Nov 2025',
-            reference: 'US45 *** 234',
-            amount: 3000.00,
-            isCredit: true
-          },
-          {
-            id: 5,
-            type: 'Achat carte',
-            date: '11 Déc 2024',
-            reference: 'UBER PARIS',
-            amount: 45.20,
-            isCredit: false
-          },
-          {
-            id: 6,
-            type: 'Retrait ATM',
-            date: '10 Déc 2024',
-            reference: 'ATM BNP PARIS 15',
-            amount: 100.00,
-            isCredit: false
-          },
-          {
-            id: 7,
-            type: 'Virement entrant',
-            date: '08 Déc 2024',
-            reference: 'FR45 *** 891',
-            amount: 500.00,
-            isCredit: true
-          },
-          {
-            id: 8,
-            type: 'Achat carte',
-            date: '07 Déc 2024',
-            reference: 'FNAC PARIS',
-            amount: 156.80,
-            isCredit: false
-          },
-          {
-            id: 9,
-            type: 'Retrait ATM',
-            date: '05 Déc 2024',
-            reference: 'ATM BNP GARE LYON',
-            amount: 200.00,
-            isCredit: false
-          },
-          {
-            id: 10,
-            type: 'Achat carte',
-            date: '03 Déc 2024',
-            reference: 'AMAZON FRANCE',
-            amount: 67.99,
-            isCredit: false
-          }
+          { id: 1, type: 'Virement entrant', date: '02 Déc 2025', reference: 'IE28 *** 513', amount: 40000.00, isCredit: true },
+          { id: 2, type: 'Achat carte', date: '04 Déc 2025', reference: 'CARREFOUR BREST', amount: 85.50, isCredit: false },
+          { id: 3, type: 'Virement sortant', date: '25 Nov 2025', reference: 'FR76 *** 657', amount: 1200.00, isCredit: false },
+          { id: 4, type: 'Virement entrant', date: '12 Nov 2025', reference: 'US45 *** 234', amount: 3000.00, isCredit: true },
+          { id: 5, type: 'Achat carte', date: '11 Déc 2024', reference: 'UBER PARIS', amount: 45.20, isCredit: false },
+          { id: 6, type: 'Retrait ATM', date: '10 Déc 2024', reference: 'ATM BNP PARIS 15', amount: 100.00, isCredit: false },
+          { id: 7, type: 'Virement entrant', date: '08 Déc 2024', reference: 'FR45 *** 891', amount: 500.00, isCredit: true },
+          { id: 8, type: 'Achat carte', date: '07 Déc 2024', reference: 'FNAC PARIS', amount: 156.80, isCredit: false },
+          { id: 9, type: 'Retrait ATM', date: '05 Déc 2024', reference: 'ATM BNP GARE LYON', amount: 200.00, isCredit: false },
+          { id: 10, type: 'Achat carte', date: '03 Déc 2024', reference: 'AMAZON FRANCE', amount: 67.99, isCredit: false }
         ],
         expenses: {
           month: 'Décembre 2024',
@@ -274,7 +204,6 @@ class UserService {
         virementRapide: 10,
         virementProgramme: 3
       },
-     
       { 
         id: 3, 
         username: '01234567890', 
@@ -387,9 +316,6 @@ class UserService {
       }
     ];
   }
-
-  // ⚠️ CONTINUEZ AVEC LA PARTIE 2 CI-DESSOUS
-  // ⚠️ SUITE DE LA PARTIE 1 - COLLEZ APRÈS getDefaultUsers()
 
   async createTransfer(userId, transferData) {
     return new Promise((resolve, reject) => {
