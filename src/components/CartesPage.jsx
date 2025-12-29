@@ -458,6 +458,14 @@ export default function CartesPage({ user, navigate: navigateProp }) {
             <div className="absolute top-0 right-0 w-40 h-40 bg-white opacity-5 rounded-full -mr-20 -mt-20"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-white opacity-5 rounded-full -ml-16 -mb-16"></div>
             
+            {/* Badge Bloquée si compte bloqué */}
+            {currentUser.isBlocked && (
+              <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg z-20">
+                <Lock size={12} />
+                BLOQUÉE
+              </div>
+            )}
+            
             <div className="relative z-10">
               {/* Logo BNP en haut */}
               <div className="flex items-start justify-between mb-12">

@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 4; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
+const DATA_VERSION = 5; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
   constructor() {
@@ -235,7 +235,7 @@ class UserService {
             maskedNumber: '4532 **** **** 2345',
             cvv: '123',
             expiryDate: '10/27',
-            status: 'Bloqué',
+            status: 'blocked',
             dailyWithdrawalLimit: 500,
             weeklyPaymentLimit: 2000,
             internationalPaymentEnabled: true,
