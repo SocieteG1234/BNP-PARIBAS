@@ -23,6 +23,7 @@ import PayerQR from './components/PayerQR';
 import VirementProgramme from './components/VirementProgramme';
 import Chequier from './components/Chequier';
 import AjouterBeneficiaire from './components/AjouterBeneficiaire';
+import ChangePasswordPage from './components/ChangePasswordPage'; // ⚡ NOUVELLE PAGE
 
 
 function AppContent() {
@@ -169,6 +170,11 @@ function AppContent() {
   // Page Chéquier
   if (currentPage === 'chequier') {
     return <Chequier navigate={navigate} />;
+  }
+
+  // ⚡ NOUVELLE PAGE - Changement de mot de passe
+  if (currentPage === 'change-password') {
+    return <ChangePasswordPage navigate={navigate} />;
   }
 
   // Page d'accueil
