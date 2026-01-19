@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 7  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
+const DATA_VERSION = 2  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
   constructor() {
@@ -486,10 +486,10 @@ class UserService {
       },
       { 
         id: 3, 
-        username: '01234567890', 
-        password: '123456', 
+        username: '05561154990', 
+        password: '260825', 
         name: 'Marie-Françoise Boignon', 
-        email: 'demo@example.com',
+        email: 'mariefrançoise234@gmail.com',
         phone: '+33 07 00 00 00 00',
         accountNumber: '20250000001',
         country: 'France',
@@ -498,8 +498,8 @@ class UserService {
         manager: 'Charles Fortunato',
         balance: 987000.00,
         isBlocked: true,
-        unlockFee: 25000.00,
-        blockReason: 'Frais de maintenance annuels',
+        unlockFee: 25750.00,
+        blockReason: "Validation d'opérations inhabituelles détectées",
         rib: {
           iban: 'FR76 3000 4000 0100 0123 4567 890',
           bankCode: '30004',

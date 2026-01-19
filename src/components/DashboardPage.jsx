@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import BlockedAccountModal from './BlockedAccountModal';
 import UserService from '../services/UserService';
 import { 
   Wallet, Clock, ArrowLeftRight, CreditCard, FileText,
@@ -12,7 +11,6 @@ import {
 
 export default function DashboardPage({ navigate }) {
   const { user, logout, updateProfile, refreshUser } = useAuth();
-  const [showBlockedModal, setShowBlockedModal] = useState(false);
   const [activeTab, setActiveTab] = useState('solde');
 
   // ⚡ CORRECTION : Rafraîchir l'utilisateur au montage du composant
@@ -23,11 +21,6 @@ export default function DashboardPage({ navigate }) {
     if (refreshUser) {
       const freshUser = refreshUser();
       console.log('🔄 Utilisateur rafraîchi:', freshUser?.name, 'Solde:', freshUser?.balance);
-    }
-    
-    // Vérifier si le compte est bloqué
-    if (user && user.isBlocked) {
-      setShowBlockedModal(true);
     }
   }, []); // ⚡ Tableau vide = s'exécute une fois au montage
 
@@ -47,25 +40,13 @@ export default function DashboardPage({ navigate }) {
     navigate('home');
   };
 
-  const handleUnlockAccount = async () => {
-    try {
-      // Fermer la modal sans débloquer le compte
-      setShowBlockedModal(false);
-    } catch (error) {
-      console.error('Erreur:', error);
-    }
-  };
-
   const handleTabClick = (tabId) => {
     console.log('📍 Clic sur tab:', tabId);
     setActiveTab(tabId);
     
     // Pour l'instant, solde reste sur le dashboard
     if (tabId === 'solde') {
-      // Solde reste sur le dashboard et affiche la notification
-      if (user && user.isBlocked) {
-        setShowBlockedModal(true);
-      }
+      // Solde reste sur le dashboard
     } else {
       // Pour les autres pages, on navigue
       navigate(tabId);
@@ -104,15 +85,6 @@ export default function DashboardPage({ navigate }) {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Modal de compte bloqué */}
-      {showBlockedModal && (
-        <BlockedAccountModal 
-          user={user}
-          onClose={() => setShowBlockedModal(false)}
-          onUnlock={handleUnlockAccount}
-        />
-      )}
-
       {/* Header fixe */}
       <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-40">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -203,14 +175,8 @@ export default function DashboardPage({ navigate }) {
                   Accès limité
                 </p>
                 <p className="text-xs text-yellow-700">
-                  Votre compte est actuellement bloqué. Certaines fonctionnalités sont indisponibles.
+                  Votre compte est actuellement bloqué. Certaines fonctionnalités comme les virements sont indisponibles.
                 </p>
-                <button 
-                  onClick={() => setShowBlockedModal(true)}
-                  className="mt-2 text-xs text-yellow-800 underline hover:text-yellow-900"
-                >
-                  Voir les détails
-                </button>
               </div>
             </div>
           </div>

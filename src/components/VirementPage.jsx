@@ -1,12 +1,12 @@
-// components/VirementPage.jsx - VERSION AVEC USERSERVICE
+// components/VirementPage.jsx - AVEC VÉRIFICATION DE BLOCAGE
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import userService from '../services/UserService'; // ⚡ IMPORT DU SERVICE
+import userService from '../services/UserService';
 import emailjs from '@emailjs/browser';
 import { 
   ArrowLeft, Send, User, CreditCard, Euro, MessageSquare,
-  Wallet, Clock, ArrowLeftRight, FileText, Mail, Building2, AlertCircle, Loader2
+  Wallet, Clock, ArrowLeftRight, FileText, Mail, Building2, AlertCircle, Loader2, Lock
 } from 'lucide-react';
 
 export default function VirementPage({ navigate, onVirementSuccess }) {
@@ -14,6 +14,7 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
   const [activeTab, setActiveTab] = useState('virement');
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showBlockedModal, setShowBlockedModal] = useState(false); // ⚡ NOUVEAU
   
   const [formData, setFormData] = useState({
     beneficiaire: '',
@@ -94,7 +95,14 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
     
     console.log('🚀 === DÉBUT DU VIREMENT ===');
     console.log('👤 User actuel:', user);
-    console.log('📝 FormData:', formData);
+    console.log('🔒 Compte bloqué ?', user?.isBlocked);
+    
+    // ⚡⚡⚡ VÉRIFICATION DU BLOCAGE EN PREMIER ⚡⚡⚡
+    if (user?.isBlocked) {
+      console.log('❌ Compte bloqué ! Affichage du modal');
+      setShowBlockedModal(true);
+      return; // ⚡ STOPPER ICI
+    }
     
     const newErrors = {};
 
@@ -142,7 +150,6 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
     setLoading(true);
 
     try {
-      // ⚡⚡⚡ UTILISATION DU USERSERVICE ⚡⚡⚡
       console.log('💾 Appel UserService.createTransfer()...');
       
       const transferResult = await userService.createTransfer(user.id, {
@@ -156,17 +163,14 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
 
       console.log('✅ Virement enregistré dans UserService:', transferResult);
 
-      // ⚡ Récupérer l'utilisateur mis à jour depuis le UserService
       const updatedUser = await userService.getUserById(user.id);
       console.log('👤 Utilisateur mis à jour récupéré:', updatedUser);
 
-      // ⚡ Mettre à jour le contexte
       if (updateUser) {
         updateUser(updatedUser);
         console.log('✅ Contexte mis à jour');
       }
 
-      // Générer les données pour le reçu
       const reference = `VIR${Date.now()}${Math.floor(Math.random() * 1000)}`;
       const transactionDate = new Date().toLocaleDateString('fr-FR', {
         day: '2-digit',
@@ -190,7 +194,6 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
 
       console.log('💾 Données du virement pour le reçu:', virementData);
 
-      // Envoi EmailJS (optionnel, non bloquant)
       try {
         const templateParams = {
           beneficiaire_nom: formData.beneficiaire,
@@ -221,7 +224,6 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
         console.warn('⚠️ Erreur EmailJS (non bloquante):', emailError.message);
       }
 
-      // Réinitialiser le formulaire
       console.log('🧹 Réinitialisation du formulaire');
       setFormData({
         beneficiaire: '',
@@ -232,7 +234,6 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
         motif: '',
       });
 
-      // Callback vers App.jsx (avec les données du reçu)
       console.log('🔄 Exécution du callback...');
       if (onVirementSuccess && typeof onVirementSuccess === 'function') {
         try {
@@ -243,14 +244,9 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
         }
       }
 
-      // Petit délai pour garantir la synchronisation
       await new Promise(resolve => setTimeout(resolve, 100));
 
       console.log('🚀 Navigation vers la page reçu...');
-      console.log('=== ÉTAT FINAL ===');
-      console.log('User dans contexte:', updatedUser);
-      console.log('Nouveau solde:', updatedUser.balance);
-      
       navigate('recu');
       
       console.log('✅ === FIN DU VIREMENT (succès) ===');
@@ -267,7 +263,6 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
     }
   };
 
-  // Si pas d'utilisateur, ne rien afficher
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -308,6 +303,64 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      {/* ⚡⚡⚡ MODAL DE BLOCAGE ⚡⚡⚡ */}
+      {showBlockedModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl animate-scale-in">
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center">
+                  <Lock className="text-red-600" size={28} />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-800">Compte bloqué</h2>
+                  <p className="text-sm text-gray-500">Virement impossible</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6">
+              <p className="text-gray-700 mb-4">
+                Bonjour <span className="font-semibold">{user.name}</span>,
+              </p>
+              <p className="text-gray-600 mb-4">
+                Votre compte est actuellement <span className="font-bold text-red-600">bloqué</span>. Vous ne pouvez pas effectuer de virement pour le moment.
+              </p>
+
+              {user.blockReason && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                  <p className="text-sm font-medium text-blue-900 mb-1">Raison :</p>
+                  <p className="text-sm text-blue-800">{user.blockReason}</p>
+                </div>
+              )}
+
+              <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-700 font-medium">Frais de déblocage :</span>
+                  <span className="text-2xl font-bold text-emerald-600">
+                    {user.unlockFee?.toLocaleString('fr-FR', { 
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2 
+                    })} €
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowBlockedModal(false)}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-medium transition"
+              >
+                J'ai compris
+              </button>
+
+              <p className="text-xs text-gray-500 text-center mt-4">
+                Contactez votre conseiller pour débloquer votre compte
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-20">
         <div className="max-w-4xl mx-auto px-4 py-4">
@@ -562,6 +615,22 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
           </div>
         </div>
       </nav>
+
+      <style jsx>{`
+        @keyframes scale-in {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        .animate-scale-in {
+          animation: scale-in 0.2s ease-out;
+        }
+      `}</style>
     </div>
   );
 }
