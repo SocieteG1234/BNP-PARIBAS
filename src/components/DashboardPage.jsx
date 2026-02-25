@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import UserService from '../services/UserService';
+import BlockedAccountModal from './BlockedAccountModal';
 import { 
   Wallet, Clock, ArrowLeftRight, CreditCard, FileText,
   LogOut, Send, QrCode, Calendar, BookOpen, MapPin,
@@ -12,22 +13,27 @@ import {
 export default function DashboardPage({ navigate }) {
   const { user, logout, updateProfile, refreshUser } = useAuth();
   const [activeTab, setActiveTab] = useState('solde');
+  const [showBlockedModal, setShowBlockedModal] = useState(false);
 
-  // ⚡ CORRECTION : Rafraîchir l'utilisateur au montage du composant
+  // Rafraîchir l'utilisateur au montage du composant
   useEffect(() => {
     console.log('📊 DashboardPage monté');
-    
-    // Forcer le rafraîchissement depuis localStorage
     if (refreshUser) {
       const freshUser = refreshUser();
       console.log('🔄 Utilisateur rafraîchi:', freshUser?.name, 'Solde:', freshUser?.balance);
     }
-  }, []); // ⚡ Tableau vide = s'exécute une fois au montage
+  }, []);
 
-  // ⚡ AJOUT : Surveiller les changements de user pour détecter les déconnexions
+  // Afficher le modal si le compte est bloqué dès l'entrée sur le dashboard
+  useEffect(() => {
+    if (user?.isBlocked) {
+      setShowBlockedModal(true);
+    }
+  }, [user]);
+
+  // Surveiller les changements de user pour détecter les déconnexions
   useEffect(() => {
     console.log('👤 User dans Dashboard:', user?.name, 'Solde:', user?.balance);
-    
     if (!user) {
       console.warn('⚠️ Pas d\'utilisateur dans Dashboard, redirection...');
       navigate('login');
@@ -43,17 +49,11 @@ export default function DashboardPage({ navigate }) {
   const handleTabClick = (tabId) => {
     console.log('📍 Clic sur tab:', tabId);
     setActiveTab(tabId);
-    
-    // Pour l'instant, solde reste sur le dashboard
-    if (tabId === 'solde') {
-      // Solde reste sur le dashboard
-    } else {
-      // Pour les autres pages, on navigue
+    if (tabId !== 'solde') {
       navigate(tabId);
     }
   };
 
-  // ⚡ PROTECTION : Si pas de user, afficher un loader
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -85,6 +85,19 @@ export default function DashboardPage({ navigate }) {
 
   return (
     <div className="min-h-screen bg-gray-100">
+
+      {/* ✅ Modal compte bloqué — s'affiche dès la connexion si isBlocked = true */}
+      {showBlockedModal && (
+        <BlockedAccountModal
+          user={user}
+          onUnlock={async () => {
+            await UserService.unlockAccount(user.id);
+            if (refreshUser) refreshUser();
+            setShowBlockedModal(false);
+          }}
+        />
+      )}
+
       {/* Header fixe */}
       <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-40">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -127,10 +140,17 @@ export default function DashboardPage({ navigate }) {
             Dernière connexion: {lastConnection}
           </div>
 
-          <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full mb-6">
-            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-            <span className="font-medium">Actif</span>
-          </div>
+          {user?.isBlocked ? (
+            <div className="inline-flex items-center gap-2 bg-red-50 text-red-700 px-4 py-2 rounded-full mb-6">
+              <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+              <span className="font-medium">Bloqué</span>
+            </div>
+          ) : (
+            <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full mb-6">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+              <span className="font-medium">Actif</span>
+            </div>
+          )}
 
           <div className="border-t pt-4">
             <div className="text-4xl font-bold text-gray-800 mb-2">
@@ -146,22 +166,22 @@ export default function DashboardPage({ navigate }) {
         {/* Boutons d'actions */}
         <div className="grid grid-cols-2 gap-4 mb-6">
           <button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl p-6 flex flex-col items-center justify-center gap-3 transition shadow-sm" onClick={() => navigate('virement-rapide')}>
-            <Send size={40}  />
+            <Send size={40} />
             <span className="font-medium text-lg">Virement rapide</span>
           </button>
 
-          <button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl p-6 flex flex-col items-center justify-center gap-3 transition shadow-sm"  onClick={() => navigate('payer-qr')}>
-            <QrCode size={40}    />
+          <button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl p-6 flex flex-col items-center justify-center gap-3 transition shadow-sm" onClick={() => navigate('payer-qr')}>
+            <QrCode size={40} />
             <span className="font-medium text-lg">Payer par QR</span>
           </button>
 
           <button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl p-6 flex flex-col items-center justify-center gap-3 transition shadow-sm" onClick={() => navigate('virement-programme')}>
-            <Calendar size={40}  />
+            <Calendar size={40} />
             <span className="font-medium text-lg">Virement programmé</span>
           </button>
 
-          <button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl p-6 flex flex-col items-center justify-center gap-3 transition shadow-sm"  onClick={() => navigate('chequier')}>
-            <BookOpen size={40}   />
+          <button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl p-6 flex flex-col items-center justify-center gap-3 transition shadow-sm" onClick={() => navigate('chequier')}>
+            <BookOpen size={40} />
             <span className="font-medium text-lg">Chéquier</span>
           </button>
         </div>
@@ -255,7 +275,7 @@ export default function DashboardPage({ navigate }) {
                   key={transaction.id}
                   className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-lg transition cursor-pointer"
                 >
-                  <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center ">
+                  <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
                     <ArrowLeftRight className="text-emerald-600" size={24} />
                   </div>
                   <div className="flex-1">
@@ -293,7 +313,6 @@ export default function DashboardPage({ navigate }) {
                 />
                 {user?.expenses?.categories.map((category, index) => {
                   const total = user.expenses.categories.reduce((sum, cat) => sum + cat.value, 0);
-                  let currentAngle = -90;
                   
                   const previousValues = user.expenses.categories
                     .slice(0, index)
