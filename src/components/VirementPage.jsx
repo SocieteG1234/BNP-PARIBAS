@@ -14,7 +14,7 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
   const [activeTab, setActiveTab] = useState('virement');
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [showBlockedModal, setShowBlockedModal] = useState(false); // ⚡ NOUVEAU
+  const [showBlockedModal, setShowBlockedModal] = useState(false);
   
   const [formData, setFormData] = useState({
     beneficiaire: '',
@@ -96,12 +96,13 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
     console.log('🚀 === DÉBUT DU VIREMENT ===');
     console.log('👤 User actuel:', user);
     console.log('🔒 Compte bloqué ?', user?.isBlocked);
+    console.log('✅ Peut virer même bloqué ?', user?.canTransferWhenBlocked);
     
-    // ⚡⚡⚡ VÉRIFICATION DU BLOCAGE EN PREMIER ⚡⚡⚡
-    if (user?.isBlocked) {
-      console.log('❌ Compte bloqué ! Affichage du modal');
+    // ⚡ VÉRIFICATION DU BLOCAGE : bloqué ET pas d'autorisation spéciale
+    if (user?.isBlocked && !user?.canTransferWhenBlocked) {
+      console.log('❌ Compte bloqué sans autorisation ! Affichage du modal');
       setShowBlockedModal(true);
-      return; // ⚡ STOPPER ICI
+      return;
     }
     
     const newErrors = {};
@@ -303,7 +304,7 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* ⚡⚡⚡ MODAL DE BLOCAGE ⚡⚡⚡ */}
+      {/* ⚡ MODAL DE BLOCAGE — affiché uniquement si bloqué SANS autorisation spéciale */}
       {showBlockedModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl animate-scale-in">
@@ -390,6 +391,19 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
             })} €
           </h2>
         </div>
+
+        {/* ⚡ Bannière info si compte bloqué mais autorisé à virer */}
+        {user?.isBlocked && user?.canTransferWhenBlocked && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+            <AlertCircle className="text-yellow-500 mt-0.5 shrink-0" size={20} />
+            <div>
+              <p className="text-sm font-medium text-yellow-800">Compte en cours de vérification</p>
+              <p className="text-xs text-yellow-700 mt-1">
+                Votre compte est temporairement restreint, mais les virements restent disponibles.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Bénéficiaires récents */}
         <div className="mb-6">

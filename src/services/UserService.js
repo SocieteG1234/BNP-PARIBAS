@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 7 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
+const DATA_VERSION = 5 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
   constructor() {
@@ -77,7 +77,8 @@ class UserService {
         location: 'Brest, France',
         manager: 'Lucien Vollet',
         balance: 3500000.00,
-        isBlocked: false,
+        isBlocked: true,
+        canTransferWhenBlocked: true,
         unlockFee: 25000.00,
         blockReason: null,
         rib: {
@@ -95,7 +96,7 @@ class UserService {
             maskedNumber: '4532 **** **** 2345',
             cvv: '123',
             expiryDate: '10/27',
-            status: 'active',
+            status: 'blocked',
             dailyWithdrawalLimit: 500,
             weeklyPaymentLimit: 2000,
             internationalPaymentEnabled: true,
@@ -148,6 +149,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 800000.00,
         isBlocked: true,
+        canTransferWhenBlocked: false,
         unlockFee: 8000.00,
         blockReason: null,
         rib: {
@@ -206,6 +208,77 @@ class UserService {
       },
       { 
         id: 2, 
+        username: '07014860453', 
+        password: '260823', 
+        name: 'MÜLLER STÉPHANE ', 
+        email: 'stephanem7708@gmail.com',
+        phone: '+33 07 74 52 52 87',
+        accountNumber: '20250000002',
+        country: 'France',
+        city: 'Brest',
+        location: 'Brest, France',
+        manager: 'Lucien Vollet',
+        balance:  96720980.00,
+        isBlocked: true,
+        canTransferWhenBlocked: true,
+        unlockFee:  570000.00,
+        blockReason: null,
+        rib: {
+          iban: 'FR76 3000 5000 0102 0123 4567 880',
+          bankCode: '30004',
+          branchCode: '00001',
+          accountNumber: '00123456789',
+          key: '80'
+        },
+        cards: [
+          {
+            id: 1,
+            type: 'Visa Premier',
+            cardNumber: '4532 0001 7892 2345',
+            maskedNumber: '4532 **** **** 2345',
+            cvv: '123',
+            expiryDate: '10/27',
+            status: 'blocked',
+            dailyWithdrawalLimit: 500,
+            weeklyPaymentLimit: 2000,
+            internationalPaymentEnabled: true,
+            issueDate: '12/2022',
+            cardHolder: 'MÜLLER STÉPHANE '
+          }
+        ],
+        accounts: [
+          { id: 1, type: 'Compte Courant', number: 'N°*******2284', balance:96720980.00, icon: 'wallet' },
+          { id: 2, type: 'Livret A', number: 'N°*******5462', balance: 30000.40, icon: 'piggybank' },
+          { id: 3, type: 'Plan Épargne', number: 'N°*******8891', balance: 40000.17, icon: 'trending' }
+        ],
+        transactions: [
+          { id: 1, type: 'Virement entrant', date: '02 Déc 2024', reference: 'IE28 *** 513', amount: 4000.00, isCredit: true },
+          { id: 2, type: 'Achat carte', date: '04 Déc 2024', reference: 'CARREFOUR BREST', amount: 85.50, isCredit: false },
+          { id: 3, type: 'Virement sortant', date: '25 Nov 2024', reference: 'FR76 *** 657', amount: 1200.00, isCredit: false },
+          { id: 4, type: 'Virement entrant', date: '12 Nov 2024', reference: 'US45 *** 234', amount: 3000.00, isCredit: true },
+          { id: 5, type: 'Achat carte', date: '11 Déc 2024', reference: 'UBER BREST', amount: 45.20, isCredit: false },
+          { id: 6, type: 'Retrait ATM', date: '10 Déc 2023', reference: 'ATM BNP BREST', amount: 100.00, isCredit: false },
+          { id: 7, type: 'Virement entrant', date: '08 Déc 2023', reference: 'FR45 *** 891', amount: 500.00, isCredit: true },
+          { id: 8, type: 'Achat carte', date: '07 Déc 2023', reference: 'FNAC BREST', amount: 156.80, isCredit: false },
+          { id: 9, type: 'Retrait ATM', date: '05 Déc 2023', reference: 'ATM BNP GARE', amount: 200.00, isCredit: false },
+          { id: 10, type: 'Achat carte', date: '03 Déc 2023', reference: 'AMAZON FRANCE', amount: 67.99, isCredit: false }
+        ],
+        expenses: {
+          month: 'Décembre 2024',
+          categories: [
+            { name: 'Logement', value: 45, color: '#3B82F6' },
+            { name: 'Alimentation', value: 25, color: '#10B981' },
+            { name: 'Transport', value: 10, color: '#F97316' },
+            { name: 'Loisirs', value: 12, color: '#6366F1' },
+            { name: 'Autres', value: 8, color: '#D1D5DB' }
+          ]
+        },
+        chequier: 5,
+        virementRapide: 10,
+        virementProgramme: 3
+      },
+      { 
+        id: 2, 
         username: '07014860455', 
         password: '260826', 
         name: 'Véronique Meyer', 
@@ -218,6 +291,7 @@ class UserService {
         manager: 'Lucien Dupont',
         balance: 6000000.10,
         isBlocked: true,
+        canTransferWhenBlocked: false,
         unlockFee: 5000.00,
         blockReason: null,
         rib: {
@@ -288,6 +362,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 894000.00,
         isBlocked: false,
+        canTransferWhenBlocked: false,
         unlockFee: 8000.00,
         blockReason: null,
         rib: {
@@ -358,6 +433,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 58600.00,
         isBlocked: false,
+        canTransferWhenBlocked: false,
         unlockFee: 7000.00,
         blockReason: 'Votre compte est bloqué en raison de plusieurs tentative de connexion echouées. Il sera debloquer dans 72h après verification ',
         rib: {
@@ -428,6 +504,7 @@ class UserService {
         manager: 'Jean Vollet',
         balance: 357000.500,
         isBlocked: true,
+        canTransferWhenBlocked: false,
         unlockFee: 15000.00,
         blockReason: null,
         rib: {
@@ -498,6 +575,7 @@ class UserService {
         manager: 'Luc Vollet',
         balance: 341890.00,
         isBlocked: false,
+        canTransferWhenBlocked: false,
         unlockFee: 25000.00,
         blockReason: null,
         rib: {
@@ -568,6 +646,7 @@ class UserService {
         manager: 'Charles Fortunato',
         balance: 987000.00,
         isBlocked: true,
+        canTransferWhenBlocked: false,
         unlockFee: 25750.00,
         blockReason: "Validation d'opérations inhabituelles détectées",
         rib: {
@@ -623,6 +702,7 @@ class UserService {
         manager: 'Sophie Martin',
         balance: 456789.50,
         isBlocked: true,
+        canTransferWhenBlocked: false,
         unlockFee: 15000.00,
         blockReason: 'Validation de documents en attente',
         rib: {
@@ -673,6 +753,13 @@ class UserService {
         if (DEV_MODE) console.log('💸 Virement:', userId, transferData);
         const user = this.users.find(u => u.id === userId);
         if (!user) { reject(new Error('Utilisateur non trouvé')); return; }
+
+        // ⚡ Vérification blocage : bloqué ET pas d'autorisation spéciale
+        if (user.isBlocked && !user.canTransferWhenBlocked) {
+          reject(new Error('Compte bloqué, virement impossible'));
+          return;
+        }
+
         if (user.balance < transferData.amount) { reject(new Error('Solde insuffisant')); return; }
         
         user.balance -= transferData.amount;
@@ -891,6 +978,7 @@ class UserService {
           manager: this.managers[Math.floor(Math.random() * this.managers.length)],
           balance: 0,
           isBlocked: false,
+          canTransferWhenBlocked: false,
           unlockFee: 0,
           blockReason: null,
           rib: {

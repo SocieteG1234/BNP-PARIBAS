@@ -7,7 +7,7 @@ import BlockedAccountModal from './BlockedAccountModal';
 import { 
   Wallet, Clock, ArrowLeftRight, CreditCard, FileText,
   LogOut, Send, QrCode, Calendar, BookOpen, MapPin,
-  PiggyBank, TrendingUp, ChevronRight
+  PiggyBank, TrendingUp, ChevronRight, AlertCircle
 } from 'lucide-react';
 
 export default function DashboardPage({ navigate }) {
@@ -15,7 +15,6 @@ export default function DashboardPage({ navigate }) {
   const [activeTab, setActiveTab] = useState('solde');
   const [showBlockedModal, setShowBlockedModal] = useState(false);
 
-  // Rafraîchir l'utilisateur au montage du composant
   useEffect(() => {
     console.log('📊 DashboardPage monté');
     if (refreshUser) {
@@ -24,14 +23,13 @@ export default function DashboardPage({ navigate }) {
     }
   }, []);
 
-  // Afficher le modal si le compte est bloqué dès l'entrée sur le dashboard
+  // ✅ Modal affiché dès que isBlocked = true, peu importe canTransferWhenBlocked
   useEffect(() => {
     if (user?.isBlocked) {
       setShowBlockedModal(true);
     }
   }, [user]);
 
-  // Surveiller les changements de user pour détecter les déconnexions
   useEffect(() => {
     console.log('👤 User dans Dashboard:', user?.name, 'Solde:', user?.balance);
     if (!user) {
@@ -86,7 +84,7 @@ export default function DashboardPage({ navigate }) {
   return (
     <div className="min-h-screen bg-gray-100">
 
-      {/* ✅ Modal compte bloqué — s'affiche dès la connexion si isBlocked = true */}
+      {/* ✅ Modal toujours affiché si isBlocked, peu importe canTransferWhenBlocked */}
       {showBlockedModal && (
         <BlockedAccountModal
           user={user}
@@ -95,6 +93,7 @@ export default function DashboardPage({ navigate }) {
             if (refreshUser) refreshUser();
             setShowBlockedModal(false);
           }}
+          onClose={() => setShowBlockedModal(false)}
         />
       )}
 
@@ -118,13 +117,10 @@ export default function DashboardPage({ navigate }) {
         </div>
       </header>
 
-      {/* Contenu principal avec padding pour header et footer */}
       <main className="max-w-4xl mx-auto px-4 py-6 mt-20 mb-20">
         {/* Carte d'information utilisateur */}
         <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            {user?.name}
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">{user?.name}</h1>
           
           <div className="flex items-center gap-2 text-gray-600 mb-2">
             <MapPin size={18} />
@@ -154,10 +150,7 @@ export default function DashboardPage({ navigate }) {
 
           <div className="border-t pt-4">
             <div className="text-4xl font-bold text-gray-800 mb-2">
-              {balance.toLocaleString('fr-FR', { 
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2 
-              })}€
+              {balance.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}€
             </div>
             <div className="text-gray-600">Solde disponible</div>
           </div>
@@ -169,35 +162,38 @@ export default function DashboardPage({ navigate }) {
             <Send size={40} />
             <span className="font-medium text-lg">Virement rapide</span>
           </button>
-
           <button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl p-6 flex flex-col items-center justify-center gap-3 transition shadow-sm" onClick={() => navigate('payer-qr')}>
             <QrCode size={40} />
             <span className="font-medium text-lg">Payer par QR</span>
           </button>
-
           <button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl p-6 flex flex-col items-center justify-center gap-3 transition shadow-sm" onClick={() => navigate('virement-programme')}>
             <Calendar size={40} />
             <span className="font-medium text-lg">Virement programmé</span>
           </button>
-
           <button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl p-6 flex flex-col items-center justify-center gap-3 transition shadow-sm" onClick={() => navigate('chequier')}>
             <BookOpen size={40} />
             <span className="font-medium text-lg">Chéquier</span>
           </button>
         </div>
 
-        {/* Avertissement si compte bloqué */}
-        {user?.isBlocked && (
+        {/* Bandeau selon le type de blocage */}
+        {user?.isBlocked && !user?.canTransferWhenBlocked && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
-            <div className="flex items-start gap-3">
-              <div>
-                <p className="text-sm font-medium text-yellow-800 mb-1">
-                  Accès limité
-                </p>
-                <p className="text-xs text-yellow-700">
-                  Votre compte est actuellement bloqué. Certaines fonctionnalités comme les virements sont indisponibles.
-                </p>
-              </div>
+            <p className="text-sm font-medium text-yellow-800 mb-1">Accès limité</p>
+            <p className="text-xs text-yellow-700">
+              Votre compte est actuellement bloqué. Certaines fonctionnalités comme les virements sont indisponibles.
+            </p>
+          </div>
+        )}
+
+        {user?.isBlocked && user?.canTransferWhenBlocked && (
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+            <AlertCircle className="text-blue-500 mt-0.5 shrink-0" size={20} />
+            <div>
+              <p className="text-sm font-medium text-blue-800 mb-1">Compte en cours de vérification</p>
+              <p className="text-xs text-blue-700">
+                Votre compte est temporairement restreint, mais les virements restent disponibles.
+              </p>
             </div>
           </div>
         )}
@@ -222,25 +218,14 @@ export default function DashboardPage({ navigate }) {
                 }
               };
               const Icon = getIcon(account.icon);
-
               return (
-                <div 
-                  key={account.id}
-                  className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition cursor-pointer"
-                >
+                <div key={account.id} className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition cursor-pointer">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <h3 className="text-xl font-medium text-gray-700 mb-1">
-                        {account.type}
-                      </h3>
-                      <p className="text-sm text-gray-500 mb-4">
-                        {account.number}
-                      </p>
+                      <h3 className="text-xl font-medium text-gray-700 mb-1">{account.type}</h3>
+                      <p className="text-sm text-gray-500 mb-4">{account.number}</p>
                       <p className="text-3xl font-bold text-gray-800">
-                        {account.balance.toLocaleString('fr-FR', { 
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2 
-                        })} €
+                        {account.balance.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
                       </p>
                     </div>
                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
@@ -257,24 +242,16 @@ export default function DashboardPage({ navigate }) {
         <div className="mb-24">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Dernières opérations</h2>
 
-          {/* Transactions récentes */}
           <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold text-gray-800">Transactions récentes</h3>
-              <button 
-                onClick={() => navigate('historique')}
-                className="text-emerald-600 font-medium hover:underline"
-              >
+              <button onClick={() => navigate('historique')} className="text-emerald-600 font-medium hover:underline">
                 Voir l'historique
               </button>
             </div>
-
             <div className="space-y-4">
               {user?.transactions?.slice(0, 5).map((transaction) => (
-                <div 
-                  key={transaction.id}
-                  className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-lg transition cursor-pointer"
-                >
+                <div key={transaction.id} className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-lg transition cursor-pointer">
                   <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
                     <ArrowLeftRight className="text-emerald-600" size={24} />
                   </div>
@@ -283,13 +260,8 @@ export default function DashboardPage({ navigate }) {
                     <p className="text-sm text-gray-500">{transaction.date}</p>
                     <p className="text-sm text-gray-600 font-mono">{transaction.reference}</p>
                   </div>
-                  <div className={`text-xl font-bold ${
-                    transaction.isCredit ? 'text-emerald-600' : 'text-red-600'
-                  }`}>
-                    {transaction.isCredit ? '+' : '-'}{transaction.amount.toLocaleString('fr-FR', { 
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2 
-                    })} €
+                  <div className={`text-xl font-bold ${transaction.isCredit ? 'text-emerald-600' : 'text-red-600'}`}>
+                    {transaction.isCredit ? '+' : '-'}{transaction.amount.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
                   </div>
                 </div>
               ))}
@@ -300,34 +272,19 @@ export default function DashboardPage({ navigate }) {
           <div className="bg-white rounded-xl shadow-sm p-6">
             <h3 className="text-xl font-bold text-gray-800 mb-2">Dépenses par catégorie</h3>
             <p className="text-gray-500 mb-6">{user?.expenses?.month}</p>
-
             <div className="flex flex-col items-center">
               <svg width="300" height="300" viewBox="0 0 300 300" className="mb-6">
-                <circle 
-                  cx="150" 
-                  cy="150" 
-                  r="120" 
-                  fill="none" 
-                  stroke="#f3f4f6" 
-                  strokeWidth="60"
-                />
+                <circle cx="150" cy="150" r="120" fill="none" stroke="#f3f4f6" strokeWidth="60" />
                 {user?.expenses?.categories.map((category, index) => {
                   const total = user.expenses.categories.reduce((sum, cat) => sum + cat.value, 0);
-                  
-                  const previousValues = user.expenses.categories
-                    .slice(0, index)
-                    .reduce((sum, cat) => sum + cat.value, 0);
-                  
+                  const previousValues = user.expenses.categories.slice(0, index).reduce((sum, cat) => sum + cat.value, 0);
                   const startAngle = -90 + (previousValues / total) * 360;
                   const endAngle = startAngle + (category.value / total) * 360;
-                  
                   const startX = 150 + 120 * Math.cos((startAngle * Math.PI) / 180);
                   const startY = 150 + 120 * Math.sin((startAngle * Math.PI) / 180);
                   const endX = 150 + 120 * Math.cos((endAngle * Math.PI) / 180);
                   const endY = 150 + 120 * Math.sin((endAngle * Math.PI) / 180);
-                  
                   const largeArcFlag = category.value / total > 0.5 ? 1 : 0;
-                  
                   return (
                     <path
                       key={category.name}
@@ -338,14 +295,10 @@ export default function DashboardPage({ navigate }) {
                 })}
                 <circle cx="150" cy="150" r="80" fill="white" />
               </svg>
-
               <div className="grid grid-cols-2 gap-4 w-full">
                 {user?.expenses?.categories.map((category) => (
                   <div key={category.name} className="flex items-center gap-2">
-                    <div 
-                      className="w-4 h-4 rounded"
-                      style={{ backgroundColor: category.color }}
-                    ></div>
+                    <div className="w-4 h-4 rounded" style={{ backgroundColor: category.color }}></div>
                     <span className="text-sm text-gray-700">{category.name}</span>
                   </div>
                 ))}
@@ -364,9 +317,7 @@ export default function DashboardPage({ navigate }) {
                 key={item.id}
                 onClick={() => handleTabClick(item.id)}
                 className={`flex flex-col items-center gap-1 py-3 px-4 transition ${
-                  activeTab === item.id
-                    ? 'text-emerald-600'
-                    : 'text-gray-500 hover:text-gray-700'
+                  activeTab === item.id ? 'text-emerald-600' : 'text-gray-500 hover:text-gray-700'
                 }`}
               >
                 <item.icon size={24} />
