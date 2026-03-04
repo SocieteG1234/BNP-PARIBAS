@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 3 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
+const DATA_VERSION = 6 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
   constructor() {
@@ -207,7 +207,7 @@ class UserService {
         virementProgramme: 3
       },
       { 
-        id: 2, 
+        id: 3, 
         username: '07014860453', 
         password: '260823', 
         name: 'MÜLLER STÉPHANE ', 
@@ -278,7 +278,7 @@ class UserService {
         virementProgramme: 3
       },
       { 
-        id: 2, 
+        id: 4, 
         username: '07014860455', 
         password: '260826', 
         name: 'Véronique Meyer', 
@@ -349,7 +349,7 @@ class UserService {
         virementProgramme: 3
       },
       { 
-        id: 2, 
+        id: 5, 
         username: '07014860455', 
         password: '260821', 
         name: 'Bernadette Lucette', 
@@ -420,7 +420,7 @@ class UserService {
         virementProgramme: 3
       },
       { 
-        id: 1, 
+        id: 6, 
         username: '07014860453', 
         password: '260823', 
         name:'Alexandre Roussel', 
@@ -491,7 +491,7 @@ class UserService {
         virementProgramme: 3
       },
       { 
-        id: 2, 
+        id: 7, 
         username: '07885513462', 
         password: '260824', 
         name: 'Caroline Duvins', 
@@ -562,7 +562,7 @@ class UserService {
         virementProgramme: 3
       },
       { 
-        id: 2, 
+        id: 8, 
         username: '07885513461', 
         password: '260824', 
         name: 'Ducharme Belinda', 
@@ -633,7 +633,7 @@ class UserService {
         virementProgramme: 3
       },
       { 
-        id: 3, 
+        id: 9, 
         username: '05561154990', 
         password: '260825', 
         name: 'Marie-Françoise Boignon', 
@@ -689,7 +689,7 @@ class UserService {
         virementProgramme: 3
       },
       { 
-        id: 4, 
+        id: 10, 
         username: '09876543210', 
         password: '654321', 
         name: 'Jean-Pierre Dupont', 
