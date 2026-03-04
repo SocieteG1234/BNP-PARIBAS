@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 2 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
+const DATA_VERSION = 3 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
   constructor() {
@@ -218,7 +218,7 @@ class UserService {
         city: 'Toulon',
         location: 'Toulon, France',
         manager: 'Lucien Vollet',
-        balance:  96720980.00,
+        balance:  96720980.10,
         isBlocked: true,
         canTransferWhenBlocked: true,
         unlockFee:  570000.00,
