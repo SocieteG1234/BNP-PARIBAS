@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 7 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
+const DATA_VERSION = 8 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
   constructor() {
@@ -421,7 +421,7 @@ class UserService {
       },
       { 
         id: 6, 
-        username: '07014860453', 
+        username: '07014860456', 
         password: '260823', 
         name:'Alexandre Roussel', 
         email: 'Alexandreroussel07050@gmail.com',
