@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 2 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
+const DATA_VERSION = 3 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
   constructor() {
@@ -694,11 +694,11 @@ class UserService {
         password: '654321', 
         name: 'Adama Coulibaly', 
         email: 'client@example.com',
-        phone: '+225 07 11 11 11 11',
+        phone: '+33 06 56 45 16 11',
         accountNumber: '20250000004',
-        country: 'Côte d\'Ivoire',
-        city: 'Abidjan',
-        location: 'Abidjan, Côte d\'Ivoire',
+        country: 'France',
+        city: 'Paris',
+        location: 'Paris, France',
         manager: 'Sophie Martin',
         balance: 45678949.50,
         isBlocked: false,
