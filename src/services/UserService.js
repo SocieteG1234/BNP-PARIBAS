@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 5 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
+const DATA_VERSION = 6 ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
   constructor() {
@@ -220,7 +220,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 55000.00,
         isBlocked: true,
-        canTransferWhenBlocked: false,
+        canTransferWhenBlocked: true,
         unlockFee: 5500.00,
         blockReason: null,
         rib: {
@@ -238,7 +238,7 @@ class UserService {
             maskedNumber: '4532 **** **** 2345',
             cvv: '123',
             expiryDate: '10/27',
-            status: 'active',
+            status: 'blocked',
             dailyWithdrawalLimit: 500,
             weeklyPaymentLimit: 2000,
             internationalPaymentEnabled: true,
