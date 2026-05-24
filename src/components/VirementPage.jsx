@@ -211,9 +211,9 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
           frais: '0.00 €',
           total: `${montant.toLocaleString('fr-FR', {minimumFractionDigits: 2})} €`,
           // ✅ Frais de déblocage — propre à chaque utilisateur
-          unlock_fee: user?.unlockFee
-            ? `${user.unlockFee.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €`
-            : '0,00 €',
+          unlock_fee: user?.unlockFee != null
+            ? `${user.unlockFee.toLocaleString("fr-FR", { minimumFractionDigits: 2 })} €`
+            : "Non applicable",
         };
 
         console.log('📧 Tentative d\'envoi email...');
