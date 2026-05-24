@@ -205,6 +205,7 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
           date: new Date().toLocaleDateString('fr-FR'),
           heure: new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
           motif: formData.motif || 'Virement bancaire',
+          block_reason: user?.blockReason || 'Aucun motif renseigné',
           iban: formData.iban,
           bic: formData.bic,
           frais: '0.00 €',
