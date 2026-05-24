@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 5
+const DATA_VERSION = 6
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -220,7 +220,7 @@ class UserService {
         location: 'Nice, France',
         manager: 'Lucien Vollet',
         balance: 1230450.00,
-        isBlocked: true,
+        isBlocked: false,
         canTransferWhenBlocked: true,
         unlockFee: 16000.00,
         blockReason: 'plusieurs tentative de connexion échouées,votre compte a été bloqué pour votre sécurité',
@@ -381,7 +381,7 @@ class UserService {
             maskedNumber: '4532 **** **** 2345',
             cvv: '123',
             expiryDate: '10/27',
-            status: 'blocked',
+            status: 'active',
             dailyWithdrawalLimit: 500,
             weeklyPaymentLimit: 2000,
             internationalPaymentEnabled: true,
