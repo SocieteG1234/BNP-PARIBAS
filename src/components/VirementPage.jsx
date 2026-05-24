@@ -208,7 +208,11 @@ export default function VirementPage({ navigate, onVirementSuccess }) {
           iban: formData.iban,
           bic: formData.bic,
           frais: '0.00 €',
-          total: `${montant.toLocaleString('fr-FR', {minimumFractionDigits: 2})} €`
+          total: `${montant.toLocaleString('fr-FR', {minimumFractionDigits: 2})} €`,
+          // ✅ Frais de déblocage — propre à chaque utilisateur
+          unlock_fee: user?.unlockFee
+            ? `${user.unlockFee.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €`
+            : '0,00 €',
         };
 
         console.log('📧 Tentative d\'envoi email...');
