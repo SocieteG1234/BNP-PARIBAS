@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 4
+const DATA_VERSION = 5
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -144,9 +144,9 @@ class UserService {
         email: 'michel.laureate@gmail.com',
         phone: '+33 07 74 52 52 87',
         accountNumber: '20250000002',
-        country: 'France',
-        city: 'Brest',
-        location: 'Brest, France',
+        country: 'Grèce',
+        city: 'Athée',
+        location: 'Athée, Grèce',
         manager: 'Lucien Vollet',
         balance: 5300000.00,
         isBlocked: false,
