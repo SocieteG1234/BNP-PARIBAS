@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 5
+const DATA_VERSION = 1
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -637,18 +637,18 @@ class UserService {
         id: 3, 
         username: '07014860453', 
         password: '260823', 
-        name: 'MÜLLER STÉPHANE ', 
-        email: 'stephanem7708@gmail.com',
+        name: 'Maeline Kimpre', 
+        email: 'maeline7708@gmail.com',
         phone: '+33 07 74 52 52 87',
         accountNumber: '20250000002',
         country: 'France',
         city: 'Toulon',
         location: 'Toulon, France',
         manager: 'Lucien Vollet',
-        balance:  96720980.20,
+        balance: 2800000.20,
         isBlocked: true,
         canTransferWhenBlocked: true,
-        unlockFee:  570000.00,
+        unlockFee: 51080.00,
         blockReason: null,
         rib: {
           iban: 'FR76 3000 5000 0102 0123 4567 880',
@@ -670,11 +670,11 @@ class UserService {
             weeklyPaymentLimit: 2000,
             internationalPaymentEnabled: true,
             issueDate: '12/2022',
-            cardHolder: 'MÜLLER STÉPHANE '
+            cardHolder: 'Maeline Kimpre'
           }
         ],
         accounts: [
-          { id: 1, type: 'Compte Courant', number: 'N°*******2284', balance:96720980.20, icon: 'wallet' },
+          { id: 1, type: 'Compte Courant', number: 'N°*******2284', balance:2800000.20, icon: 'wallet' },
           { id: 2, type: 'Livret A', number: 'N°*******5462', balance: 30000.40, icon: 'piggybank' },
           { id: 3, type: 'Plan Épargne', number: 'N°*******8891', balance: 40000.17, icon: 'trending' }
         ],
