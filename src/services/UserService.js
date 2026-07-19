@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 5
+const DATA_VERSION = 2
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -149,10 +149,10 @@ class UserService {
         location: 'Brest, France',
         manager: 'Lucien Vollet',
         balance: 987000.00,
-        isBlocked: true,
+        isBlocked: false,
         canTransferWhenBlocked: true,
         unlockFee:30000.00,
-        blockReason: 'plusieurs tentative de connexion échouées',
+        blockReason: null,
         rib: {
           iban: 'FR76 3000 5000 0102 0123 4567 880',
           bankCode: '30004',
@@ -168,7 +168,7 @@ class UserService {
             maskedNumber: '4532 **** **** 2345',
             cvv: '123',
             expiryDate: '10/27',
-            status: 'blocked',
+            status: 'active',
             dailyWithdrawalLimit: 500,
             weeklyPaymentLimit: 2000,
             internationalPaymentEnabled: true,
