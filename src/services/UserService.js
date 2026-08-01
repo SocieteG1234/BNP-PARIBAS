@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 2
+const DATA_VERSION = 6
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -221,9 +221,9 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 600000.00,
         isBlocked: false,
-        canTransferWhenBlocked: false,
-        unlockFee: null,
-        blockReason: null,
+        canTransferWhenBlocked: true,
+        unlockFee:60000,
+        blockReason: 'Blocage pour suspicion de fraude',
         rib: {
           iban: 'FR76 3000 5000 0102 0123 4567 880',
           bankCode: '30004',
