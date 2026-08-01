@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 8
+const DATA_VERSION = 5
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -221,7 +221,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 600000.00,
         isBlocked: true,
-        canTransferWhenBlocked: true,
+        canTransferWhenBlocked: false,
         unlockFee: 60000,
         blockReason: 'Blocage pour suspicion de fraude',
         rib: {
