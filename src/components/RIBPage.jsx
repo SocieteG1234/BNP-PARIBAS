@@ -41,7 +41,7 @@ export default function RIBPage({ user, navigate }) {
   const getBankInfo = (user) => {
     const bankCode = '30004';
     const swift = 'BNPAFRPPXXX';
-    const bankName = 'BNP PARIBAS';
+    const bankName = 'BMCI-BNP Paribas';
     
     if (user.rib && user.rib.iban) {
       return {

@@ -20,6 +20,8 @@ export default function BlockedAccountModal({ user, onClose, onUnlock }) {
 
   if (!user || !user.isBlocked) return null;
 
+  const unlockFee = user.unlockFee ?? 0;
+
   return (
     <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-md w-full shadow-2xl">
@@ -70,7 +72,7 @@ export default function BlockedAccountModal({ user, onClose, onUnlock }) {
             <div className="flex items-center justify-between">
               <span className="text-gray-700 font-medium">Frais de déblocage :</span>
               <span className="text-2xl font-bold text-gray-800">
-                {user.unlockFee.toLocaleString('fr-FR', { 
+                {unlockFee.toLocaleString('fr-FR', { 
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2 
                 })}€

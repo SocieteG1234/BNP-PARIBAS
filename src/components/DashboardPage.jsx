@@ -104,7 +104,7 @@ export default function DashboardPage({ navigate }) {
             <div className="w-12 h-12 bg-emerald-600 rounded flex items-center justify-center">
               <img src="images/logo bnp.jpeg" alt="" />
             </div>
-            <span className="text-xl font-bold text-gray-800">BNP PARIBAS</span>
+            <span className="text-xl font-bold text-gray-800">BMCI - BNP Paribas</span>
           </div>
           
           <button 
