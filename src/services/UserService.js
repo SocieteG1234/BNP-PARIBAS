@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 2
+const DATA_VERSION = 4
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -397,15 +397,9 @@ class UserService {
         ],
         transactions: [
           
-          { id: 2, type: 'Achat carte', date: '04 Déc 2025', reference: 'CARREFOUR BREST', amount: 85.50, isCredit: false },
-          { id: 3, type: 'Virement sortant', date: '25 Nov 2025', reference: 'FR76 *** 657', amount: 1200.00, isCredit: false },
-          { id: 4, type: 'Virement entrant', date: '12 Nov 2025', reference: 'US45 *** 234', amount: 3000.00, isCredit: true },
-          { id: 5, type: 'Achat carte', date: '11 Déc 2024', reference: 'UBER BREST', amount: 45.20, isCredit: false },
-          { id: 6, type: 'Retrait ATM', date: '10 Déc 2024', reference: 'ATM BNP BREST', amount: 100.00, isCredit: false },
-          { id: 7, type: 'Virement entrant', date: '08 Déc 2024', reference: 'FR45 *** 891', amount: 500.00, isCredit: true },
-          { id: 8, type: 'Achat carte', date: '07 Déc 2024', reference: 'FNAC BREST', amount: 156.80, isCredit: false },
-          { id: 9, type: 'Retrait ATM', date: '05 Déc 2024', reference: 'ATM BNP GARE', amount: 200.00, isCredit: false },
-          { id: 10, type: 'Achat carte', date: '03 Déc 2024', reference: 'AMAZON FRANCE', amount: 67.99, isCredit: false }
+        
+          { id: 1, type: 'Virement entrant', date: '17 août 2026', reference: 'NL16 *** 578', amount: 300000.00, isCredit: true },
+          
         ],
         expenses: {
           month: 'Décembre 2024',
