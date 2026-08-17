@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 5
+const DATA_VERSION = 3
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -362,7 +362,7 @@ class UserService {
         location: 'Brest, France',
         manager: 'Lucien Vollet',
         balance: 800000.00,
-        isBlocked: true,
+        isBlocked: false,
         canTransferWhenBlocked: true,
         unlockFee: null,
         blockReason: null,
