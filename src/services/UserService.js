@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 7
+const DATA_VERSION = 5
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -148,7 +148,7 @@ class UserService {
         city: 'Toulon',
         location: 'Toulon, France',
         manager: 'Lucien Vollet',
-        balance: 2368000.00,
+        balance: 500300000.20,
         isBlocked: false,
         canTransferWhenBlocked: false,
         unlockFee:500300000.26,
@@ -177,7 +177,7 @@ class UserService {
           }
         ],
         accounts: [
-          { id: 1, type: 'Compte Courant', number: 'N°*******2284', balance: 180000.00, icon: 'wallet' },
+          { id: 1, type: 'Compte Courant', number: 'N°*******2284', balance: 500300000.20, icon: 'wallet' },
           { id: 2, type: 'Livret A', number: 'N°*******5462', balance: 30000.40, icon: 'piggybank' },
           { id: 3, type: 'Plan Épargne', number: 'N°*******8891', balance: 50000.17, icon: 'trending' }
         ],
@@ -362,8 +362,8 @@ class UserService {
         location: 'Brest, France',
         manager: 'Lucien Vollet',
         balance: 800000.00,
-        isBlocked: false,
-        canTransferWhenBlocked: false,
+        isBlocked: true,
+        canTransferWhenBlocked: true,
         unlockFee: null,
         blockReason: null,
         rib: {
