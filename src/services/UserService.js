@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 7
+const DATA_VERSION = 2
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -398,7 +398,7 @@ class UserService {
         transactions: [
           
         
-          { id: 1, type: 'Virement sortant', date: '17 août 2026', reference: 'NL16 *** 578', amount: 300000.00, isCredit: true },
+          { id: 1, type: 'Virement sortant', date: '17 août 2026', reference: 'NL16 *** 578', amount: 300000.00, isCredit: false },
           
         ],
         expenses: {
