@@ -55,7 +55,7 @@ export default function Header({ onNavigateToLogin, onNavigateToInscription }) {
                   alt="BNP Paribas" 
                   className="h-8 w-auto"
                 />
-                <span className="text-sm font-semibold text-gray-900">BMCI - BNP Paribas</span>
+                <span className="text-sm font-semibold text-gray-900">BNP Paribas</span>
               </div>
               <div className="flex items-center gap-3">
                 <button onClick={onNavigateToLogin} className="hover:bg-gray-100 p-2 rounded-full transition">

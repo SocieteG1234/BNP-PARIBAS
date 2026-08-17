@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 8
+const DATA_VERSION = 6
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -210,7 +210,7 @@ class UserService {
       { 
         id: 14, 
         username: '07014860491',
-        password: '260823', 
+        password: '260824', 
         name: 'Patrick Levoisier', 
         email: 'jeanvangelder@gmail.com',
         phone: '+33 07 74 52 52 87',
