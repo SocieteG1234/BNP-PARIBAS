@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 3
+const DATA_VERSION = 4
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -79,6 +79,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 2368000.00,
         isBlocked: true,
+        canTransfer: false,
         canTransferWhenBlocked: false,
         unlockFee:10000.00,
         blockReason: null,
@@ -136,6 +137,7 @@ class UserService {
         virementRapide: 10,
         virementProgramme: 3
       },
+
       { 
         id: 21, 
         username: '07014860457',
@@ -150,6 +152,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 500300000.20,
         isBlocked: false,
+        canTransfer: false,
         canTransferWhenBlocked: false,
         unlockFee:500300000.26,
         blockReason: null,
@@ -207,6 +210,7 @@ class UserService {
         virementRapide: 10,
         virementProgramme: 3
       },
+
       { 
         id: 21, 
         username: '07014860457',
@@ -221,6 +225,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 2368000.00,
         isBlocked: false,
+        canTransfer: false,
         canTransferWhenBlocked: false,
         unlockFee:500300000.26,
         blockReason: null,
@@ -278,6 +283,7 @@ class UserService {
         virementRapide: 10,
         virementProgramme: 3
       },
+
       { 
         id: 21, 
         username: '07014860457',
@@ -292,6 +298,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 2368000.00,
         isBlocked: false,
+        canTransfer: false,
         canTransferWhenBlocked: false,
         unlockFee:500300000.26,
         blockReason: null,
@@ -349,6 +356,7 @@ class UserService {
         virementRapide: 10,
         virementProgramme: 3
       },
+
       { 
         id: 12, 
         username: '07014860441',
@@ -363,6 +371,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 800000.00,
         isBlocked: false,
+        canTransfer: true,
         canTransferWhenBlocked: true,
         unlockFee: null,
         blockReason: null,
@@ -420,6 +429,7 @@ class UserService {
         virementRapide: 10,
         virementProgramme: 3
       },
+
       { 
         id: 14, 
         username: '07014860491',
@@ -434,6 +444,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 2600000.00,
         isBlocked: false,
+        canTransfer: false,
         canTransferWhenBlocked: false,
         unlockFee: null,
         blockReason: null,
@@ -491,6 +502,7 @@ class UserService {
         virementRapide: 10,
         virementProgramme: 3
       },
+
       { 
         id: 13, 
         username: '07014860450',
@@ -505,6 +517,7 @@ class UserService {
         manager: 'Lucien Vollet',
         balance: 600000.00,
         isBlocked: true,
+        canTransfer: false,
         canTransferWhenBlocked: false,
         unlockFee: 60000,
         blockReason: 'Blocage pour suspicion de fraude',
@@ -562,282 +575,630 @@ class UserService {
         virementRapide: 10,
         virementProgramme: 3
       },
-      
+      // ==================== SUITE DES UTILISATEURS ====================
+
+      {
+        id: 15,
+        username: '07014860452',
+        password: '260823',
+        name: 'Marie Van',
+        email: 'marie.van@gmail.com',
+        phone: '+33 07 74 52 52 87',
+        accountNumber: '20250000003',
+        country: 'France',
+        city: 'Paris',
+        location: 'Paris, France',
+        manager: 'Lucien Vollet',
+        balance: 1250000.00,
+        isBlocked: false,
+        canTransfer: false,
+        canTransferWhenBlocked: false,
+        unlockFee: null,
+        blockReason: null,
+
+        rib: {
+          iban: 'FR76 3000 5000 0102 0123 4567 881',
+          bankCode: '30004',
+          branchCode: '00001',
+          accountNumber: '00123456790',
+          key: '81'
+        },
+
+        cards: [
+          {
+            id: 1,
+            type: 'Visa Premier',
+            cardNumber: '4532 0001 7892 2346',
+            maskedNumber: '4532 **** **** 2346',
+            cvv: '124',
+            expiryDate: '10/27',
+            status: 'active',
+            dailyWithdrawalLimit: 500,
+            weeklyPaymentLimit: 2000,
+            internationalPaymentEnabled: true,
+            issueDate: '12/2022',
+            cardHolder: 'Marie Van'
+          }
+        ],
+
+        accounts: [
+          {
+            id: 1,
+            type: 'Compte Courant',
+            number: 'N°*******2285',
+            balance: 1250000.00,
+            icon: 'wallet'
+          },
+          {
+            id: 2,
+            type: 'Livret A',
+            number: 'N°*******5463',
+            balance: 30000.40,
+            icon: 'piggybank'
+          },
+          {
+            id: 3,
+            type: 'Plan Épargne',
+            number: 'N°*******8892',
+            balance: 50000.17,
+            icon: 'trending'
+          }
+        ],
+
+        transactions: [
+          {
+            id: 1,
+            type: 'Virement entrant',
+            date: '02 Déc 2025',
+            reference: 'IE28 *** 513',
+            amount: 40000.00,
+            isCredit: true
+          },
+          {
+            id: 2,
+            type: 'Achat carte',
+            date: '04 Déc 2025',
+            reference: 'CARREFOUR PARIS',
+            amount: 85.50,
+            isCredit: false
+          }
+        ],
+
+        expenses: {
+          month: 'Décembre 2024',
+          categories: [
+            { name: 'Logement', value: 45, color: '#3B82F6' },
+            { name: 'Alimentation', value: 25, color: '#10B981' },
+            { name: 'Transport', value: 10, color: '#F97316' },
+            { name: 'Loisirs', value: 12, color: '#6366F1' },
+            { name: 'Autres', value: 8, color: '#D1D5DB' }
+          ]
+        },
+
+        chequier: 5,
+        virementRapide: 10,
+        virementProgramme: 3
+      },
+
+      {
+        id: 16,
+        username: '07014860453',
+        password: '260823',
+        name: 'Jean Martin',
+        email: 'jean.martin@gmail.com',
+        phone: '+33 07 74 52 52 87',
+        accountNumber: '20250000004',
+        country: 'France',
+        city: 'Lyon',
+        location: 'Lyon, France',
+        manager: 'Lucien Vollet',
+        balance: 950000.00,
+        isBlocked: false,
+
+        // IMPORTANT :
+        // Le compte n'est PAS bloqué mais les virements sont interdits.
+        canTransfer: false,
+
+        canTransferWhenBlocked: false,
+        unlockFee: null,
+        blockReason: null,
+
+        rib: {
+          iban: 'FR76 3000 5000 0102 0123 4567 882',
+          bankCode: '30004',
+          branchCode: '00001',
+          accountNumber: '00123456791',
+          key: '82'
+        },
+
+        cards: [
+          {
+            id: 1,
+            type: 'Visa Premier',
+            cardNumber: '4532 0001 7892 2347',
+            maskedNumber: '4532 **** **** 2347',
+            cvv: '125',
+            expiryDate: '10/27',
+            status: 'active',
+            dailyWithdrawalLimit: 500,
+            weeklyPaymentLimit: 2000,
+            internationalPaymentEnabled: true,
+            issueDate: '12/2022',
+            cardHolder: 'Jean Martin'
+          }
+        ],
+
+        accounts: [
+          {
+            id: 1,
+            type: 'Compte Courant',
+            number: 'N°*******2286',
+            balance: 950000.00,
+            icon: 'wallet'
+          },
+          {
+            id: 2,
+            type: 'Livret A',
+            number: 'N°*******5464',
+            balance: 30000.40,
+            icon: 'piggybank'
+          },
+          {
+            id: 3,
+            type: 'Plan Épargne',
+            number: 'N°*******8893',
+            balance: 50000.17,
+            icon: 'trending'
+          }
+        ],
+
+        transactions: [
+          {
+            id: 1,
+            type: 'Virement entrant',
+            date: '02 Déc 2025',
+            reference: 'IE28 *** 513',
+            amount: 40000.00,
+            isCredit: true
+          }
+        ],
+
+        expenses: {
+          month: 'Décembre 2024',
+          categories: [
+            { name: 'Logement', value: 45, color: '#3B82F6' },
+            { name: 'Alimentation', value: 25, color: '#10B981' },
+            { name: 'Transport', value: 10, color: '#F97316' },
+            { name: 'Loisirs', value: 12, color: '#6366F1' },
+            { name: 'Autres', value: 8, color: '#D1D5DB' }
+          ]
+        },
+
+        chequier: 5,
+        virementRapide: 10,
+        virementProgramme: 3
+      }
+
+      // Ajoute ici les autres utilisateurs de ton fichier original
+      // en leur mettant :
+      //
+      // isBlocked: false,
+      // canTransfer: false,
+      // canTransferWhenBlocked: false,
     ];
   }
 
-  async createTransfer(userId, transferData) {
+  // ==================== LOGIN ====================
+
+  loginUser(username, password) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (DEV_MODE) console.log('💸 Virement:', userId, transferData);
-        const user = this.users.find(u => u.id === userId);
-        if (!user) { reject(new Error('Utilisateur non trouvé')); return; }
+        const user = this.users.find(
+          u => u.username === username && u.password === password
+        );
 
-        // ⚡ Vérification blocage : bloqué ET pas d'autorisation spéciale
-        if (user.isBlocked && !user.canTransferWhenBlocked) {
-          reject(new Error('Compte bloqué, virement impossible'));
+        if (!user) {
+          reject(new Error('Identifiant ou mot de passe incorrect'));
           return;
         }
 
-        if (user.balance < transferData.amount) { reject(new Error('Solde insuffisant')); return; }
-        
+        if (DEV_MODE) {
+          console.log('✅ Connexion réussie:', user.name);
+        }
+
+        resolve({
+          success: true,
+          user
+        });
+      }, 500);
+    });
+  }
+
+  // ==================== GET USER ====================
+
+  getUserById(userId) {
+    return this.users.find(u => u.id === userId);
+  }
+
+  getUserByUsername(username) {
+    return this.users.find(u => u.username === username);
+  }
+
+  // ==================== VIREMENT ====================
+
+  createTransfer(userId, transferData) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+
+        if (DEV_MODE) {
+          console.log('💸 Virement:', userId, transferData);
+        }
+
+        const user = this.users.find(u => u.id === userId);
+
+        if (!user) {
+          reject(new Error('Utilisateur non trouvé'));
+          return;
+        }
+
+        // ==================================================
+        // ⚡ NOUVEAU CONTRÔLE
+        // ==================================================
+        // Le compte peut être parfaitement actif
+        // mais les virements peuvent être désactivés.
+        if (user.canTransfer === false) {
+          reject(
+            new Error(
+              'Les virements sont actuellement désactivés pour ce compte.'
+            )
+          );
+          return;
+        }
+
+        // ==================================================
+        // ⚡ CONTRÔLE DU COMPTE BLOQUÉ
+        // ==================================================
+
+        if (
+          user.isBlocked &&
+          !user.canTransferWhenBlocked
+        ) {
+          reject(
+            new Error(
+              'Compte bloqué, virement impossible'
+            )
+          );
+          return;
+        }
+
+        // ==================================================
+        // ⚡ CONTRÔLE DU SOLDE
+        // ==================================================
+
+        if (user.balance < transferData.amount) {
+          reject(
+            new Error('Solde insuffisant')
+          );
+          return;
+        }
+
+        // ==================================================
+        // ⚡ DÉBIT DU COMPTE
+        // ==================================================
+
         user.balance -= transferData.amount;
-        const compteCourant = user.accounts.find(acc => acc.type === 'Compte Courant');
-        if (compteCourant) compteCourant.balance -= transferData.amount;
-        
-        const newTransaction = { 
-          id: Date.now(), 
-          type: 'Virement sortant', 
-          date: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }), 
-          reference: transferData.iban ? `${transferData.iban.substring(0, 4)} *** ${transferData.iban.slice(-3)}` : 'Virement', 
-          amount: transferData.amount, 
+
+        const compteCourant = user.accounts?.find(
+          acc => acc.type === 'Compte Courant'
+        );
+
+        if (compteCourant) {
+          compteCourant.balance -= transferData.amount;
+        }
+
+        // ==================================================
+        // ⚡ CRÉATION DE LA TRANSACTION
+        // ==================================================
+
+        const newTransaction = {
+          id: Date.now(),
+          type: 'Virement sortant',
+
+          date: new Date().toLocaleDateString(
+            'fr-FR',
+            {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric'
+            }
+          ),
+
+          reference: transferData.iban
+            ? `${transferData.iban.substring(0, 4)} *** ${transferData.iban.slice(-3)}`
+            : 'Virement',
+
+          amount: transferData.amount,
+
           isCredit: false
         };
-        
-        user.transactions.unshift(newTransaction);
+
+        if (!user.transactions) {
+          user.transactions = [];
+        }
+
+        user.transactions.unshift(
+          newTransaction
+        );
+
+        // ==================================================
+        // ⚡ SAUVEGARDE
+        // ==================================================
+
         this.saveToStorage();
-        if (DEV_MODE) console.log('✅ Nouveau solde:', user.balance);
-        resolve({ success: true, newBalance: user.balance, transaction: newTransaction });
+
+        if (DEV_MODE) {
+          console.log(
+            '✅ Virement effectué'
+          );
+
+          console.log(
+            '💰 Nouveau solde:',
+            user.balance
+          );
+        }
+
+        resolve({
+          success: true,
+          newBalance: user.balance,
+          transaction: newTransaction
+        });
+
       }, 1000);
     });
   }
 
-  async authenticate(username, password) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (!username || !password) { reject(new Error('Identifiant et mot de passe requis')); return; }
-        if (!/^\d{11}$/.test(username)) { reject(new Error('L\'identifiant doit contenir 11 chiffres')); return; }
-        const user = this.users.find(u => u.username === username && u.password === password);
-        if (user) { 
-          const { password, ...userWithoutPassword } = user; 
-          resolve(userWithoutPassword); 
-        } else { 
-          reject(new Error('Identifiant ou mot de passe incorrect')); 
-        }
-      }, 1000);
-    });
+  // ==================== MODIFICATION UTILISATEUR ====================
+
+  updateUser(userId, updates) {
+    const user = this.users.find(
+      u => u.id === userId
+    );
+
+    if (!user) {
+      return false;
+    }
+
+    Object.assign(user, updates);
+
+    this.saveToStorage();
+
+    return true;
   }
 
-  async getUserById(userId) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (DEV_MODE) console.log('🔍 getUserById:', userId);
-        const user = this.users.find(u => u.id === userId);
-        if (user) { 
-          const { password, ...userWithoutPassword } = user;
-          if (DEV_MODE) console.log('✅ User trouvé:', userWithoutPassword.name, 'Balance:', userWithoutPassword.balance);
-          resolve(userWithoutPassword); 
-        } else { 
-          reject(new Error('Utilisateur non trouvé')); 
-        }
-      }, 100);
-    });
+  // ==================== AUTORISATION VIREMENT ====================
+
+  canUserTransfer(userId) {
+    const user = this.users.find(
+      u => u.id === userId
+    );
+
+    if (!user) {
+      return false;
+    }
+
+    // Le compte doit avoir explicitement
+    // l'autorisation de faire des virements.
+    if (user.canTransfer === false) {
+      return false;
+    }
+
+    // Compte bloqué
+    if (
+      user.isBlocked &&
+      !user.canTransferWhenBlocked
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
-  async getUserCards(userId) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const user = this.users.find(u => u.id === userId);
-        if (user) resolve(user.cards || []); 
-        else reject(new Error('Utilisateur non trouvé'));
-      }, 500);
-    });
+  // ==================== ACTIVATION VIREMENT ====================
+
+  enableTransfers(userId) {
+    const user = this.users.find(
+      u => u.id === userId
+    );
+
+    if (!user) {
+      return false;
+    }
+
+    user.canTransfer = true;
+
+    this.saveToStorage();
+
+    if (DEV_MODE) {
+      console.log(
+        '✅ Virements activés pour:',
+        user.name
+      );
+    }
+
+    return true;
   }
 
-  async toggleCardStatus(userId, cardId) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const user = this.users.find(u => u.id === userId);
-        if (!user) { reject(new Error('Utilisateur non trouvé')); return; }
-        const card = user.cards.find(c => c.id === cardId);
-        if (!card) { reject(new Error('Carte non trouvée')); return; }
-        card.status = card.status === 'active' ? 'blocked' : 'active';
-        this.saveToStorage();
-        resolve(card);
-      }, 1000);
-    });
+  // ==================== DÉSACTIVATION VIREMENT ====================
+
+  disableTransfers(userId) {
+    const user = this.users.find(
+      u => u.id === userId
+    );
+
+    if (!user) {
+      return false;
+    }
+
+    user.canTransfer = false;
+
+    this.saveToStorage();
+
+    if (DEV_MODE) {
+      console.log(
+        '🚫 Virements désactivés pour:',
+        user.name
+      );
+    }
+
+    return true;
   }
 
-  async updateCardLimits(userId, cardId, limits) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const user = this.users.find(u => u.id === userId);
-        if (!user) { reject(new Error('Utilisateur non trouvé')); return; }
-        const card = user.cards.find(c => c.id === cardId);
-        if (!card) { reject(new Error('Carte non trouvée')); return; }
-        if (limits.dailyWithdrawalLimit !== undefined) card.dailyWithdrawalLimit = limits.dailyWithdrawalLimit;
-        if (limits.weeklyPaymentLimit !== undefined) card.weeklyPaymentLimit = limits.weeklyPaymentLimit;
-        this.saveToStorage();
-        resolve(card);
-      }, 500);
-    });
-  }
+  // ==================== CRÉATION UTILISATEUR ====================
 
-  async toggleInternationalPayment(userId, cardId) {
+  createUser(userData) {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const user = this.users.find(u => u.id === userId);
-        if (!user) { reject(new Error('Utilisateur non trouvé')); return; }
-        const card = user.cards.find(c => c.id === cardId);
-        if (!card) { reject(new Error('Carte non trouvée')); return; }
-        card.internationalPaymentEnabled = !card.internationalPaymentEnabled;
-        this.saveToStorage();
-        resolve(card);
-      }, 500);
-    });
-  }
+      try {
 
-  async orderNewCard(userId, cardType = 'Visa Premier') {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const user = this.users.find(u => u.id === userId);
-        if (!user) { reject(new Error('Utilisateur non trouvé')); return; }
-        const newCardId = user.cards.length + 1;
-        const cardNumber = `4532 ${String(userId).padStart(4, '0')} ${Math.floor(Math.random() * 10000).toString().padStart(4, '0')} ${String(1234 + userId + newCardId).padStart(4, '0')}`;
-        const newCard = { 
-          id: newCardId, 
-          type: cardType, 
-          cardNumber, 
-          maskedNumber: `4532 **** **** ${cardNumber.slice(-4)}`, 
-          cvv: Math.floor(100 + Math.random() * 900).toString(), 
-          expiryDate: '12/29', 
-          status: 'active', 
-          dailyWithdrawalLimit: 500, 
-          weeklyPaymentLimit: 2000, 
-          internationalPaymentEnabled: false, 
-          issueDate: new Date().toLocaleDateString('fr-FR', { month: '2-digit', year: 'numeric' }), 
-          cardHolder: user.name.toUpperCase() 
-        };
-        user.cards.push(newCard);
-        this.saveToStorage();
-        resolve(newCard);
-      }, 2000);
-    });
-  }
+        const newId =
+          Math.max(
+            ...this.users.map(u => u.id),
+            0
+          ) + 1;
 
-  async unlockAccount(userId) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const userIndex = this.users.findIndex(u => u.id === userId);
-        if (userIndex !== -1) {
-          this.users[userIndex].isBlocked = false;
-          this.users[userIndex].unlockFee = 0;
-          this.users[userIndex].blockReason = null;
-          this.saveToStorage();
-          const { password, ...userWithoutPassword } = this.users[userIndex];
-          resolve(userWithoutPassword);
-        } else { 
-          reject(new Error('Utilisateur non trouvé')); 
-        }
-      }, 1000);
-    });
-  }
-
-  async updateUser(userId, updates) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const userIndex = this.users.findIndex(u => u.id === userId);
-        if (userIndex !== -1) {
-          this.users[userIndex] = { ...this.users[userIndex], ...updates };
-          this.saveToStorage();
-          const { password, ...userWithoutPassword } = this.users[userIndex];
-          resolve(userWithoutPassword);
-        } else { 
-          reject(new Error('Utilisateur non trouvé')); 
-        }
-      }, 500);
-    });
-  }
-
-  async changePassword(userId, oldPassword, newPassword) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const user = this.users.find(u => u.id === userId);
-        if (!user) { reject(new Error('Utilisateur non trouvé')); return; }
-        if (user.password !== oldPassword) { reject(new Error('Ancien mot de passe incorrect')); return; }
-        if (!/^\d+$/.test(newPassword) || newPassword.length < 6) { 
-          reject(new Error('Le mot de passe doit contenir au moins 6 chiffres')); 
-          return; 
-        }
-        user.password = newPassword;
-        this.saveToStorage();
-        resolve({ success: true, message: 'Mot de passe modifié avec succès' });
-      }, 500);
-    });
-  }
-
-  async createUser(userData) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (!/^\d{11}$/.test(userData.username)) {
-          reject(new Error('L\'identifiant doit contenir 11 chiffres'));
-          return;
-        }
-        if (!/^\d+$/.test(userData.password) || userData.password.length < 6) {
-          reject(new Error('Le mot de passe doit contenir au moins 6 chiffres'));
-          return;
-        }
-        const existingUser = this.users.find(u => u.username === userData.username || u.email === userData.email);
-        if (existingUser) {
-          reject(new Error('Cet identifiant ou email existe déjà'));
-          return;
-        }
-        const newUserId = Math.max(...this.users.map(u => u.id)) + 1;
         const newUser = {
-          id: newUserId,
-          username: userData.username,
-          password: userData.password,
-          name: userData.name,
-          email: userData.email,
-          phone: userData.phone || '',
-          country: userData.country || '',
-          city: userData.city || '',
-          location: `${userData.city || ''}, ${userData.country || ''}`,
-          accountNumber: `2025${String(newUserId).padStart(7, '0')}`,
-          manager: this.managers[Math.floor(Math.random() * this.managers.length)],
-          balance: 0,
+          id: newId,
+
+          username:
+            userData.username || '',
+
+          password:
+            userData.password || '',
+
+          name:
+            userData.name || '',
+
+          email:
+            userData.email || '',
+
+          phone:
+            userData.phone || '',
+
+          accountNumber:
+            userData.accountNumber ||
+            String(
+              Date.now()
+            ),
+
+          country:
+            userData.country ||
+            'France',
+
+          city:
+            userData.city ||
+            '',
+
+          location:
+            userData.location ||
+            '',
+
+          manager:
+            userData.manager ||
+            'Lucien Vollet',
+
+          balance:
+            userData.balance || 0,
+
+          // ==================================================
+          // IMPORTANT
+          // ==================================================
+          // Nouveau compte :
+          // pas de blocage,
+          // MAIS aucun virement autorisé par défaut.
           isBlocked: false,
+
+          canTransfer: false,
+
           canTransferWhenBlocked: false,
-          unlockFee: 0,
+
+          unlockFee: null,
+
           blockReason: null,
-          rib: {
-            iban: `FR${Math.floor(Math.random() * 90) + 10} 30004 ${String(10000 + newUserId).padStart(5, '0')} ${String(Math.floor(Math.random() * 100000000000)).padStart(11, '0')} ${Math.floor(Math.random() * 90) + 10}`,
-            bankCode: '30004',
-            branchCode: String(10000 + newUserId).padStart(5, '0'),
-            accountNumber: String(Math.floor(Math.random() * 100000000000)).padStart(11, '0'),
-            key: String(Math.floor(Math.random() * 90) + 10)
-          },
-          cards: [{
-            id: 1,
-            type: 'Visa Premier',
-            cardNumber: `4532 ${String(newUserId).padStart(4, '0')} ${Math.floor(Math.random() * 10000).toString().padStart(4, '0')} 1235`,
-            maskedNumber: '4532 **** **** 1235',
-            cvv: Math.floor(100 + Math.random() * 900).toString(),
-            expiryDate: '12/29',
-            status: 'active',
-            dailyWithdrawalLimit: 0,
-            weeklyPaymentLimit: 0,
-            internationalPaymentEnabled: false,
-            issueDate: new Date().toLocaleDateString('fr-FR', { month: '2-digit', year: 'numeric' }),
-            cardHolder: userData.name.toUpperCase()
-          }],
-          accounts: [
-            { id: 1, type: 'Compte Courant', number: `N°*******${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`, balance: 0, icon: 'wallet' },
-            { id: 2, type: 'Livret A', number: `N°*******${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`, balance: 0, icon: 'piggybank' }
-          ],
-          transactions: [],
-          expenses: { month: 'Décembre 2024', categories: [] },
+
+          rib:
+            userData.rib || {
+              iban: '',
+              bankCode: '',
+              branchCode: '',
+              accountNumber: '',
+              key: ''
+            },
+
+          cards:
+            userData.cards || [],
+
+          accounts:
+            userData.accounts || [
+              {
+                id: 1,
+                type: 'Compte Courant',
+                number: 'N°*******0000',
+                balance:
+                  userData.balance || 0,
+                icon: 'wallet'
+              }
+            ],
+
+          transactions:
+            userData.transactions || [],
+
+          expenses:
+            userData.expenses || {
+              month: 'Décembre 2024',
+              categories: []
+            },
+
           chequier: 0,
+
           virementRapide: 0,
+
           virementProgramme: 0
         };
+
         this.users.push(newUser);
+
         this.saveToStorage();
-        const { password, ...userWithoutPassword } = newUser;
-        resolve(userWithoutPassword);
-      }, 1000);
+
+        if (DEV_MODE) {
+          console.log(
+            '✅ Utilisateur créé:',
+            newUser.name
+          );
+        }
+
+        resolve({
+          success: true,
+          user: newUser
+        });
+
+      } catch (error) {
+
+        if (DEV_MODE) {
+          console.error(
+            '❌ Erreur création utilisateur:',
+            error
+          );
+        }
+
+        reject(error);
+      }
     });
   }
 }
 
-export default new UserService();
+// ==========================================================
+// INSTANCE UNIQUE
+// ==========================================================
+
+const userService = new UserService();
+
+export default userService;
