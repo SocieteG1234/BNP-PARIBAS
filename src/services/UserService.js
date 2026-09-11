@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 4
+const DATA_VERSION = 7
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -253,7 +253,7 @@ class UserService {
           { id: 3, type: 'Plan Épargne', number: 'N°*******8891', balance: 50000.17, icon: 'trending' }
         ],
         transactions: [
-          { id: 1, type: 'Virement sortant', date: '28 Aout 2026', reference: 'TPE', amount: 10000.00, isCredit: false },
+          { id: 1, type: 'Virement sortant', date: '28 Aout 2026', reference: 'TPE', amount: 10000.00, isCredit: false, status: 'rejeté' },
           { id: 2, type: 'paiement', date: '26 Aout 2026', reference: 'Air France', amount:950, isCredit: true },
           { id: 3, type: 'Virement sortant', date: '25 Nov 2025', reference: 'FR76 *** 657', amount: 1200.00, isCredit: false },
           { id: 4, type: 'Virement entrant', date: '12 Nov 2025', reference: 'US45 *** 234', amount: 3000.00, isCredit: true },
