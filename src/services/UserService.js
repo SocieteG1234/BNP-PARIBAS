@@ -3,7 +3,7 @@
 
 const DEV_MODE = true;
 const STORAGE_KEY = 'bnp_users_data';
-const DATA_VERSION = 8
+const DATA_VERSION = 4
  ; // ⚡ INCRÉMENTER CE NUMÉRO À CHAQUE MODIFICATION
 
 class UserService {
@@ -209,20 +209,20 @@ class UserService {
       },
       { 
         id: 40, 
-        username: '07044860453',
+        username: '07044860455',
         password: '260823', 
-        name: 'David Pleven', 
-        email: 'david.pleven@gmail.com',
+        name: 'Alex Devoudel', 
+        email: 'alex.devoudel@gmail.com',
         phone: '+33 07 74 52 52 87',
         accountNumber: '20250000002',
         country: 'France',
-        city: 'Tours',
-        location: 'Tours, France',
+        city: 'Limoges',
+        location: 'Limoges, France',
         manager: 'Lucien Vollet',
-        balance: 355000000.00,
+        balance: 1362200.00,
         isBlocked: true,
         canTransferWhenBlocked: false,
-        unlockFee:97000.00,
+        unlockFee:8000.00,
         blockReason:'Blocage pour plusieurs tentatives de connexion',
         rib: {
           iban: 'FR76 3000 5000 0102 0123 4567 880',
@@ -244,17 +244,17 @@ class UserService {
             weeklyPaymentLimit: 2000,
             internationalPaymentEnabled: true,
             issueDate: '12/2022',
-            cardHolder: 'Laeticia Guillon'
+            cardHolder: 'Alex Devoudel'
           }
         ],
         accounts: [
-          { id: 1, type: 'Compte Courant', number: 'N°*******2284', balance: 959500.00, icon: 'wallet' },
+          { id: 1, type: 'Compte Courant', number: 'N°*******2284', balance: 1362200.00, icon: 'wallet' },
           { id: 2, type: 'Livret A', number: 'N°*******5462', balance: 30000.40, icon: 'piggybank' },
           { id: 3, type: 'Plan Épargne', number: 'N°*******8891', balance: 50000.17, icon: 'trending' }
         ],
         transactions: [
-          { id: 1, type: 'Virement entrant', date: '02 Déc 2025', reference: 'IE28 *** 513', amount: 40000.00, isCredit: true },
-          { id: 2, type: 'Achat carte', date: '04 Déc 2025', reference: 'CARREFOUR BREST', amount: 85.50, isCredit: false },
+          { id: 1, type: 'Virement sortant', date: '28 Aout 2026', reference: 'TPE', amount: 10000.00, isCredit: false },
+          { id: 2, type: 'paiement', date: '26 Aout 2026', reference: 'Air France', amount:950, isCredit: true },
           { id: 3, type: 'Virement sortant', date: '25 Nov 2025', reference: 'FR76 *** 657', amount: 1200.00, isCredit: false },
           { id: 4, type: 'Virement entrant', date: '12 Nov 2025', reference: 'US45 *** 234', amount: 3000.00, isCredit: true },
           { id: 5, type: 'Achat carte', date: '11 Déc 2024', reference: 'UBER BREST', amount: 45.20, isCredit: false },
